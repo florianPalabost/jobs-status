@@ -1,0 +1,7 @@
+<div class="column">
+  <div class="flex-column">
+      <h2 class="text-center fw-bolder">{{title}}</h2>
+    <app-card *ngFor="let job of jobs" [job]="job"></app-card>
+    <a routerLink="create">Add a card ...</a>
+  </div>
+</div>

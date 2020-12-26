@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-12 col-md-6 mx-auto">
+    <h1>Ajout d'une offre</h1>
+    <form [formGroup]="createJobForm" (ngSubmit)="onSubmit()" >
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="form-control"
+          formControlName="title"
+          required
+          />
+      </div>
+
+      <div class="form-group">
+        <label for="entreprise">Entreprise</label>
+        <input
+          type="text"
+          id="entreprise"
+          name="entreprise"
+          class="form-control"
+          formControlName="entreprise"
+          required
+          />
+      </div>
+
+      <div class="form-group">
+        <label for="offer_link">Link offre</label>
+        <input
+          type="text"
+          id="offer_link"
+          name="offer_link"
+          class="form-control"
+          formControlName="offer_link"
+          />
+      </div>
+
+      <div class="form-group">
+        <label for="salary">Salaire</label>
+        <input
+          type="text"
+          id="salary"
+          name="salary"
+          class="form-control w-50"
+          formControlName="salary"
+          />
+      </div>
+
+      <div class="form-group">
+        <label for="type">Type</label>
+        <select name="type" id="type" class="form-control form-select w-50">
+          <option value="CDI">CDI</option>
+          <option value="CDD">CDD</option>
+          <option value="freelance">Freelance</option>
+        </select>
+      </div>
+
+      <button [disabled]="createJobForm.invalid" class="btn btn-primary mt-5" type="submit">Create</button>
+    </form>
+
+  </div>
+</div>
