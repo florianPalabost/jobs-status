@@ -1,0 +1,8 @@
+<nav class="nav justify-content-end">
+  <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+  <a class="nav-link" routerLink="jobs">Jobs</a>
+  <a class="nav-link" *ngIf="!isLogged" routerLink="login">Login</a>
+  <a class="nav-link" *ngIf="!isLogged" routerLink="register">Register</a>
+  <a *ngIf="isLogged" class="nav-link cursor-link" (click)="logout()">Logout</a>
+
+</nav>

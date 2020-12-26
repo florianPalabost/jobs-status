@@ -47,3 +47,5 @@ Thumbs.db
 /maquettes/*
 
 /e2e/*
+
+src/environments/environment.ts
