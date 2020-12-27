@@ -13,7 +13,7 @@ export class JobService {
 
   createJob(job: Job) {
     console.log('createJob()', job);
-    return undefined;
+    return this.fbService.createJob(job);
   }
 
   retrieveAllJobs() : Observable<any[]> {

@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-md-6 mx-auto">
-    <h1>Ajout d'une offre</h1>
+    <h1 class="h2 text-center">Ajout d'une offre</h1>
     <form [formGroup]="createJobForm" (ngSubmit)="onSubmit()" >
       <div class="form-group">
-        <label for="title">Title</label>
+        <label for="title">Titre</label>
         <input
           type="text"
           id="title"
@@ -12,9 +12,12 @@
           formControlName="title"
           required
           />
+        <small class="text-danger" *ngIf="createJobForm.get('title').hasError('required')">
+          Title is required !
+        </small>
       </div>
 
-      <div class="form-group">
+      <div class="form-group mt-3">
         <label for="entreprise">Entreprise</label>
         <input
           type="text"
@@ -24,10 +27,13 @@
           formControlName="entreprise"
           required
           />
+        <small class="text-danger" *ngIf="createJobForm.get('entreprise').hasError('required')">
+          Entreprise is required !
+        </small>
       </div>
 
-      <div class="form-group">
-        <label for="offer_link">Link offre</label>
+      <div class="form-group mt-3">
+        <label for="offer_link">Lien offre</label>
         <input
           type="text"
           id="offer_link"
@@ -35,29 +41,37 @@
           class="form-control"
           formControlName="offer_link"
           />
+        <small class="text-danger" *ngIf="createJobForm.get('offer_link').hasError('pattern')">
+          Offer link has not the correct format! (should be : https://xxxxx.xx)
+        </small>
       </div>
 
-      <div class="form-group">
+      <div class="form-group mt-3">
         <label for="salary">Salaire</label>
         <input
-          type="text"
+          type="number"
           id="salary"
           name="salary"
           class="form-control w-50"
           formControlName="salary"
           />
+        <small class="text-danger" *ngIf="createJobForm.get('salary').hasError('pattern')">
+          Salary has not the correct format! (should be at least : 100)
+        </small>
       </div>
 
-      <div class="form-group">
+      <div class="form-group mt-3">
         <label for="type">Type</label>
-        <select name="type" id="type" class="form-control form-select w-50">
+        <select name="type" id="type" class="form-control form-select" formControlName="type">
+          <option value="" disabled>Choose type missions</option>
           <option value="CDI">CDI</option>
           <option value="CDD">CDD</option>
           <option value="freelance">Freelance</option>
         </select>
       </div>
 
-      <button [disabled]="createJobForm.invalid" class="btn btn-primary mt-5" type="submit">Create</button>
+      <button [disabled]="createJobForm.invalid" class="btn btn-primary mt-5 mb-5" type="submit">Ajout</button>
+      <button class="btn btn-danger mt-5 mb-5 ms-5 " type="button" (click)="createJobForm.reset({})">Reset</button>
     </form>
 
   </div>

@@ -50,7 +50,7 @@ export class JobEffects {
     this.actions$.pipe(
       ofType(jobActionTypes.addJob),
       concatMap((action) => this.jobsService.createJob(action.job)),
-      tap(() => this.router.navigateByUrl('/'))
+      tap(() => this.router.navigateByUrl('/jobs'))
     ),
   {dispatch: false}
   );

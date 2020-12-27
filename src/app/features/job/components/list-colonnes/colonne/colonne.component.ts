@@ -1,10 +1,12 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {JobState} from "../../../store/reducer/job.reducer";
 import {Store} from "@ngrx/store";
 import {loadJobsColumn} from "../../../store/action/job.actions";
-import {getAllJobs, getJobsByColumn} from "../../../store/selector/job.selectors";
+import {getAllJobs} from "../../../store/selector/job.selectors";
 import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs";
+import {CreateJobComponent} from "./create-job/create-job.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-colonne',
@@ -13,20 +15,17 @@ import {Subject} from "rxjs";
 })
 export class ColonneComponent implements OnInit, OnDestroy {
   @Input() title: string;
-
   jobs: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  constructor(private store: Store<JobState>) { }
+
+  constructor(private store: Store<JobState>, private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    console.log("i'm still here");
-    // todo load jobs with its column title, ex: todo Column load todo jobs
     this.store.dispatch(loadJobsColumn({columnTitle:this.title}));
 
     this.store.select(getAllJobs).pipe(
       takeUntil(this.destroy$)
     ).subscribe(data => {
-      console.log('waiting');
       if (data.length > 0) {
         this.jobs = data.filter((job) => job.column === this.title);
         console.log('this jovb', this.jobs)
@@ -34,9 +33,15 @@ export class ColonneComponent implements OnInit, OnDestroy {
     });
   }
 
+  open() {
+    const modalRef = this.modalService.open(CreateJobComponent);
+    modalRef.componentInstance.column = this.title;
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+
 
 }

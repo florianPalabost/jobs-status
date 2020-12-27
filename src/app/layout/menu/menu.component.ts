@@ -1,14 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from "../../features/user/services/user.service";
 import {ToastrService} from "ngx-toastr";
-import {logoutUser} from "../../features/user/store/action/user.actions";
-import {AppState} from "../../features/job/store";
 import {Store} from "@ngrx/store";
 import {UserState} from "../../features/user/store/reducer/user.reducer";
 import * as fromRoot from "../../features/user/store/reducer/user.reducer";
 import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs";
 import {Logout} from "../../root-store/clearState";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {SignupComponent} from "../../features/user/components/signup/signup.component";
+import {SigninComponent} from "../../features/user/components/signin/signin.component";
 
 @Component({
   selector: 'app-menu',
@@ -19,7 +20,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   isLogged :boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private userService: UserService, private toast: ToastrService, private store: Store<UserState>) {
+  constructor(private userService: UserService, private toast: ToastrService,
+              private store: Store<UserState>,private modalService: NgbModal) {
     this.store.select(fromRoot.getLoginUser).pipe(
       takeUntil(this.destroy$)
     ).subscribe(data => {
@@ -41,5 +43,16 @@ export class MenuComponent implements OnInit, OnDestroy {
     // clear state for otther feature
     this.store.dispatch(new Logout());
     this.toast.success('Successfully Logout !');
+  }
+
+  open(modalToOpen: string) {
+    switch (modalToOpen) {
+      case 'register':
+        this.modalService.open(SignupComponent);
+        break;
+      default:
+        this.modalService.open(SigninComponent);
+        break;
+    }
   }
 }

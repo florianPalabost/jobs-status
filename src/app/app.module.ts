@@ -23,6 +23,7 @@ import {UserEffects} from "./features/user/store/effect/user.effects";
 import {JobEffects} from "./features/job/store/effect/job.effects";
 import { HomeComponent } from './layout/home/home.component';
 import {clearState} from "./root-store/clearState";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import {clearState} from "./root-store/clearState";
     AngularFirestoreModule,
     AngularFireDatabaseModule,
     ReactiveFormsModule,
+    NgbModule,
 
   ],
   providers: [],

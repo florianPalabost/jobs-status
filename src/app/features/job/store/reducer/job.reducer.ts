@@ -28,8 +28,6 @@ export const jobReducer = createReducer(
     );
   }),
   on(jobActionTypes.addJob, (state, action) => {
-    const ids: Array<any> = state.ids.slice(0), id: string = action.job['id'];
-    ids.push(id);
     return adapter.addOne(action.job, state);
   }),
 );
