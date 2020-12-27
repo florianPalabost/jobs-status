@@ -16,11 +16,6 @@ export class JobEffects {
        return this.jobsService.retrieveAllJobs();
       }),
       map((doc: any) => {
-          // const data = doc.payload.doc.data();
-          // datas.push({
-          //   id: doc.payload.doc.id,
-          //   ...data
-          // });
         return jobActionTypes.jobsLoaded({jobs: doc});
       })
     )
@@ -33,14 +28,6 @@ export class JobEffects {
       pipe(
         map((jobs) => jobActionTypes.jobsLoaded({jobs})),
       ),
-        // map((jobs, index) => {
-        //   console.log('index', index);
-        //   console.log('jobs effects', jobs);
-        //   if (Object.keys(jobs).length <= 0){
-        //     return jobActionTypes.jobsFailedLoad({error: jobs});
-        //   }
-        //   return jobActionTypes.jobsLoaded({jobs: jobs });
-        // }),
     ),
     // {useEffectsErrorHandler: true }
 
@@ -54,6 +41,15 @@ export class JobEffects {
     ),
   {dispatch: false}
   );
+
+  deleteJob$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(jobActionTypes.deleteJob),
+    concatMap((action) => this.jobsService.deleteJob(action.jobId)),
+    tap(() => this.router.navigateByUrl('/jobs'))
+  ),
+    {dispatch:false}
+  )
 
 
   constructor(private jobsService: JobService, private actions$: Actions, private router: Router) {}

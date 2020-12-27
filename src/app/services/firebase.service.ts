@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Observable} from "rxjs";
+import {Observable, of, Subject} from "rxjs";
 import {Job} from "../features/job/models/job";
 
 @Injectable({
@@ -38,9 +38,24 @@ export class FirebaseService {
     await this.fbStore.doc('jobs/'+ job.id).update(job);
   }
 
-  deleteJob = (jobId: string) => {
+  retrieveJobWithId= (jobId: string) => {
+    // quick trick to get the id of the document
+    return this.fbStore.collection<Job>('jobs', ref => ref.where('id', '==', jobId)).valueChanges({idField: 'id'});
+  }
+
+  deleteJob = (jobId: string)  => {
     console.log('WIP delete card:', jobId);
-    return this.fbStore.doc('jobs/'+ jobId).delete();
+    let subject = new Subject<any>();
+    let id: string;
+    this.retrieveJobWithId(jobId).subscribe( datas => {
+     datas.map((item) => {
+
+       subject.next(this.fbStore.doc('jobs/'+ item.id).delete());
+     })
+
+    });
+    return subject.asObservable();
+
   }
 
 

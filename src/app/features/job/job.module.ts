@@ -12,9 +12,11 @@ import {CardComponent} from "./components/list-colonnes/colonne/card/card.compon
 import {JobService} from "./services/job.service";
 import {JobResolver} from "./job.resolver";
 import {RouterModule} from "@angular/router";
+import { EditComponent } from './components/list-colonnes/colonne/edit/edit.component';
+import { TinyCardComponent } from './components/list-colonnes/colonne/tiny-card/tiny-card.component';
 
 @NgModule({
-  declarations: [CreateJobComponent, ListColonnesComponent, ColonneComponent, CardComponent],
+  declarations: [CreateJobComponent, ListColonnesComponent, ColonneComponent, CardComponent, EditComponent, TinyCardComponent],
   imports: [
     CommonModule,
     StoreModule.forFeature(jobFeatureKey, jobReducer),

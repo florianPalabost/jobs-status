@@ -1,14 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {select, Store} from "@ngrx/store";
+import {Store} from "@ngrx/store";
 import {AppState} from "../../../../store";
 import {addJob} from "../../../../store/action/job.actions";
 import {Job} from "../../../../models/job";
 import * as uuid from 'uuid';
-import {getUser, isUserLoaded} from "../../../../../user/store/selector/user.selectors";
 import {UserService} from "../../../../../user/services/user.service";
 import * as fromRoot from "../../../../../user/store/reducer/user.reducer";
 import {ToastrService} from "ngx-toastr";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-create-job',
@@ -21,7 +21,8 @@ export class CreateJobComponent implements OnInit {
   user: any;
 
   constructor(private fb: FormBuilder, private store: Store<AppState>,
-              private userService: UserService, private toast: ToastrService) { }
+              private userService: UserService, private toast: ToastrService,
+              private modalService: NgbModal) { }
 
   ngOnInit(): void {
     const urlRegex  = new RegExp(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/);
@@ -49,6 +50,7 @@ export class CreateJobComponent implements OnInit {
       user_id: userId,
       ...this.createJobForm.value};
     this.store.dispatch(addJob({job}));
+    this.modalService.dismissAll();
     this.toast.success('Successfully Add Job !');
   }
 }

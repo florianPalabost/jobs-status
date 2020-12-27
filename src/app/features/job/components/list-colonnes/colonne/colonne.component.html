@@ -1,7 +1,7 @@
 <div class="column">
   <div class="flex-column">
       <h2 class="text-center fw-bolder">{{title}}</h2>
-    <app-card *ngFor="let job of jobs" [job]="job"></app-card>
+    <app-tiny-card *ngFor="let job of jobs" [job]="job"></app-tiny-card>
     <button (click)="open()" data-toggle="modal" data-target="modal-create" class="link link-primary border-0">Add a card ...</button>
   </div>
 </div>

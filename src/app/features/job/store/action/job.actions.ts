@@ -26,12 +26,18 @@ export const addJob = createAction(
   props<{job: Job}>()
 );
 
+export const deleteJob = createAction(
+  '[Job] Delete Job',
+  props<{jobId: string}>()
+);
+
 export const jobActionTypes = {
   loadJobs,
   loadJobsColumn,
   jobsLoaded,
   jobsFailedLoad,
-  addJob
+  addJob,
+  deleteJob
 };
 
 

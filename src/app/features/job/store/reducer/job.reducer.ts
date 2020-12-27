@@ -21,7 +21,6 @@ export const initialState = adapter.getInitialState({
 export const jobReducer = createReducer(
   initialState,
   on(jobActionTypes.jobsLoaded, (state, action) => {
-    console.log('red job', action.jobs);
     return adapter.addMany(
       action.jobs,
       {...state, jobsLoaded: true}
@@ -29,6 +28,9 @@ export const jobReducer = createReducer(
   }),
   on(jobActionTypes.addJob, (state, action) => {
     return adapter.addOne(action.job, state);
+  }),
+  on(jobActionTypes.deleteJob, (state, action) => {
+    return adapter.removeOne(action.jobId, state);
   }),
 );
 

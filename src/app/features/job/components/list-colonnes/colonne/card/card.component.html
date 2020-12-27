@@ -1,11 +1,12 @@
 <div class="card">
   <div class="card-header">
       <h3>{{job.entreprise}}</h3>
+    <button class="btn btn-danger" (click)="delete(job.id)">Delete</button>
+    <button class="btn btn-warning ms-1" (click)="edit()">Edit</button>
   </div>
   <div class="card-body">
-    <p>{{job.title}}</p>
-    <p>{{job.offer_link}}</p>
+    <p><span class="badge bg-info">{{job.type}}</span> {{job.title}}</p>
+    <p><a target="_blank" [href]="job.offer_link" rel="noopener noreferrer">Link offer</a></p>
     <p>{{job.salary}}</p>
-    <p>{{job.type}}</p>
   </div>
 </div>

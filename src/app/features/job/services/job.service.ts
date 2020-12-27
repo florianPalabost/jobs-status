@@ -31,4 +31,8 @@ export class JobService {
     );
     return toto;
   }
+
+  deleteJob(jobId: string) {
+    return this.fbService.deleteJob(jobId);
+  }
 }

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {JobState} from "../../../store/reducer/job.reducer";
 import {Store} from "@ngrx/store";
 import {loadJobsColumn} from "../../../store/action/job.actions";
@@ -7,6 +7,7 @@ import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs";
 import {CreateJobComponent} from "./create-job/create-job.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+
 
 @Component({
   selector: 'app-colonne',
@@ -42,6 +43,7 @@ export class ColonneComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+
 
 
 }
