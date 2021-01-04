@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import {AuthFirebaseService} from "../../../services/auth-firebase.service";
 import {Observable, of} from "rxjs";
 import {User} from "../models/user";
+import * as fromRoot from "../store/reducer/user.reducer";
+import {takeUntil} from "rxjs/operators";
+import {select, Store} from "@ngrx/store";
+import {UserState} from "../store/reducer/user.reducer";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private authFBService: AuthFirebaseService) { }
+  constructor(private authFBService: AuthFirebaseService, private store: Store<UserState>) { }
 
   /**
    * @param email
@@ -29,6 +33,9 @@ export class UserService {
     } catch (e) {
       console.log(e);
     }
+  }
 
+  getUser = () => {
+    return this.store.pipe(select(fromRoot.getLoginUser))
   }
 }

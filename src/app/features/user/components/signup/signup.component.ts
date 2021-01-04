@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthFirebaseService} from "../../../../services/auth-firebase.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +14,9 @@ export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   errMsg: string;
 
-  constructor(private toastr: ToastrService ,private formBuilder: FormBuilder, private authFbService: AuthFirebaseService, private router: Router) { }
+  constructor(private toastr: ToastrService ,private formBuilder: FormBuilder,
+              private authFbService: AuthFirebaseService, private router: Router,
+              private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -31,6 +34,7 @@ export class SignupComponent implements OnInit {
 
     await this.authFbService.createNewUser(email, password);
     await this.router.navigate(['/']);
+    this.modalService.dismissAll();
     this.toastr.success('You have been successfully been registered !', 'Hello world!');
   }
 }

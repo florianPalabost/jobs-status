@@ -9,6 +9,7 @@ import {User} from "../../models/user";
 import * as fromRoot from '../../store/reducer/user.reducer';
 import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-signin',
@@ -23,7 +24,7 @@ export class SigninComponent implements OnInit, OnDestroy {
 
   constructor(private toastr: ToastrService,
               private formBuilder: FormBuilder,
-              private router:  Router, private store: Store<UserState>) {
+              private router:  Router, private store: Store<UserState>, private modalService: NgbModal) {
     this.store.select(fromRoot.getLoginUser).pipe(
       takeUntil(this.destroy$)
     ).subscribe(data => {
@@ -50,6 +51,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     const {email, password} = this.loginForm.value;
     const user: User = {email, password};
     this.store.dispatch(loadUser({user}));
+    this.modalService.dismissAll();
     this.toastr.success('You have been successfully been connected !', 'Hello world!');
   }
 
