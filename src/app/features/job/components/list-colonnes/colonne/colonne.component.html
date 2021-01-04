@@ -1,7 +1,11 @@
 <div class="column">
   <div class="flex-column">
-      <h2 class="text-center fw-bolder">{{title}}</h2>
-    <app-tiny-card *ngFor="let job of jobs" [job]="job"></app-tiny-card>
+    <h2 class="text-center fw-bolder">{{title}}</h2>
+    <smooth-dnd-container (drop)="onDrop($event)" [groupName]="title" [shouldAcceptDrop]="shouldAcceptDrop" [getChildPayload]="getChildPayload">
+      <smooth-dnd-draggable *ngFor="let job of jobs; let index = index" >
+        <app-tiny-card [job]="job"></app-tiny-card>
+      </smooth-dnd-draggable>
+    </smooth-dnd-container>
     <button (click)="open()" data-toggle="modal" data-target="modal-create" class="link link-primary border-0">Add a card ...</button>
   </div>
 </div>

@@ -35,4 +35,8 @@ export class JobService {
   deleteJob(jobId: string) {
     return this.fbService.deleteJob(jobId);
   }
+
+  updateJob(job) {
+    return this.fbService.updateJob(job);
+  }
 }

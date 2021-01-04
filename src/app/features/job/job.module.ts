@@ -10,10 +10,10 @@ import {ListColonnesComponent} from "./components/list-colonnes/list-colonnes.co
 import {ColonneComponent} from "./components/list-colonnes/colonne/colonne.component";
 import {CardComponent} from "./components/list-colonnes/colonne/card/card.component";
 import {JobService} from "./services/job.service";
-import {JobResolver} from "./job.resolver";
 import {RouterModule} from "@angular/router";
 import { EditComponent } from './components/list-colonnes/colonne/edit/edit.component';
 import { TinyCardComponent } from './components/list-colonnes/colonne/tiny-card/tiny-card.component';
+import {NgxSmoothDnDModule} from "ngx-smooth-dnd";
 
 @NgModule({
   declarations: [CreateJobComponent, ListColonnesComponent, ColonneComponent, CardComponent, EditComponent, TinyCardComponent],
@@ -23,7 +23,8 @@ import { TinyCardComponent } from './components/list-colonnes/colonne/tiny-card/
     EffectsModule.forFeature([JobEffects]),
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    NgxSmoothDnDModule
   ],
   providers: [JobService],
   bootstrap: [],

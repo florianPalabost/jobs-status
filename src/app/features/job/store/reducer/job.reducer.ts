@@ -32,6 +32,9 @@ export const jobReducer = createReducer(
   on(jobActionTypes.deleteJob, (state, action) => {
     return adapter.removeOne(action.jobId, state);
   }),
+  on(jobActionTypes.updateJob, (state, action) => {
+    return adapter.updateOne(action.job, state);
+  }),
 );
 
 export const { selectAll, selectIds } = adapter.getSelectors();

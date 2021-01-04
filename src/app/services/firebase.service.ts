@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Observable, of, Subject} from "rxjs";
+import {Observable} from "rxjs";
 import {Job} from "../features/job/models/job";
+import {map} from "rxjs/operators";
+import {Update} from "@ngrx/entity";
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +12,9 @@ export class FirebaseService {
 
   constructor(private fbStore: AngularFirestore) { }
 
- // todo CRUD CARDS OPs with userid
   retrieveCards =  () : Observable<any[]> => {
     console.log('wip fb retrieve cards');
-    const res = this.fbStore.collection<Job>('jobs').valueChanges();
-
-    return res;
+    return this.fbStore.collection<Job>('jobs').valueChanges({idField: 'id'});
   };
 
   /**
@@ -24,7 +23,15 @@ export class FirebaseService {
    */
   retrieveCardsWithColumnTitle = (columnTitle: string): Observable<Job[]> => {
     console.log('WIP fb retrieve cards with title', columnTitle);
-    return this.fbStore.collection<Job>('jobs', ref => ref.where('column', '==', columnTitle)).valueChanges();
+    return this.fbStore.collection<Job>('jobs', ref => ref.where('column', '==', columnTitle)).snapshotChanges().pipe(
+      map( action => action.map(a => {
+        const  data = a.payload.doc.data();
+        const id = a.payload.doc.id;
+        return {...data, id};
+        })
+
+      )
+    );
   };
 
   createJob = (card) => {
@@ -32,30 +39,19 @@ export class FirebaseService {
     return this.fbStore.collection('jobs').add(card);
   }
 
-  updateJob = async (job) => {
+  updateJob = (job :Update<Job>) => {
     console.log('WIP update card:', job);
-    delete job.id;
-    await this.fbStore.doc('jobs/'+ job.id).update(job);
+    return this.fbStore.doc('jobs/'+ job.id).update(job.changes);
   }
 
-  retrieveJobWithId= (jobId: string) => {
+  retrieveJobWithId= (jobId: string|number) => {
     // quick trick to get the id of the document
     return this.fbStore.collection<Job>('jobs', ref => ref.where('id', '==', jobId)).valueChanges({idField: 'id'});
   }
 
   deleteJob = (jobId: string)  => {
     console.log('WIP delete card:', jobId);
-    let subject = new Subject<any>();
-    let id: string;
-    this.retrieveJobWithId(jobId).subscribe( datas => {
-     datas.map((item) => {
-
-       subject.next(this.fbStore.doc('jobs/'+ item.id).delete());
-     })
-
-    });
-    return subject.asObservable();
-
+    return this.fbStore.doc('jobs/'+ jobId).delete()
   }
 
 

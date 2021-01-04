@@ -43,14 +43,23 @@ export class JobEffects {
   );
 
   deleteJob$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(jobActionTypes.deleteJob),
-    concatMap((action) => this.jobsService.deleteJob(action.jobId)),
-    tap(() => this.router.navigateByUrl('/jobs'))
-  ),
+    this.actions$.pipe(
+      ofType(jobActionTypes.deleteJob),
+      concatMap((action) => this.jobsService.deleteJob(action.jobId)),
+      tap(() => this.router.navigateByUrl('/jobs'))
+    ),
     {dispatch:false}
   )
 
+  updateJob$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(jobActionTypes.updateJob),
+      switchMap((action) => {
+        return this.jobsService.updateJob(action.job);
+      }),
+      map((x) => jobActionTypes.updateJobSuccess())
+    )
+  );
 
   constructor(private jobsService: JobService, private actions$: Actions, private router: Router) {}
 

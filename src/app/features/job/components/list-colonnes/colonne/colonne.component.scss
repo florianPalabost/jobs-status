@@ -1,4 +1,12 @@
 .column{
-  border: solid 1px;
+  border: solid 2px silver;
   padding: 2em;
+  min-height: 75vh;
+  border-radius: 5px;
+}
+
+.bottom {
+  position: relative;
+  top: 75vh;
+  align-content: center;
 }
