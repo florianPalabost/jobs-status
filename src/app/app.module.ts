@@ -24,6 +24,7 @@ import {JobEffects} from "./features/job/store/effect/job.effects";
 import { HomeComponent } from './layout/home/home.component';
 import {clearState} from "./root-store/clearState";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AngularFireDatabaseModule,
     ReactiveFormsModule,
     NgbModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
 
   ],
   providers: [],
