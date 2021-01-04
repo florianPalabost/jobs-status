@@ -8,5 +8,6 @@
     <p><span class="badge bg-info">{{job.type}}</span> {{job.title}}</p>
     <p><a target="_blank" [href]="job.offer_link" rel="noopener noreferrer">Link offer</a></p>
     <p>{{job.salary}}</p>
+    <p class="justify-content-center" *ngIf="job.description">{{job.description}}</p>
   </div>
 </div>

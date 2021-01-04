@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {FirebaseService} from "../../../../services/firebase.service";
 
 @Component({
   selector: 'app-list-colonnes',
@@ -9,10 +8,9 @@ import {FirebaseService} from "../../../../services/firebase.service";
 export class ListColonnesComponent implements OnInit {
   colonnes;
 
-  constructor(private fbService: FirebaseService) { }
+  constructor() { }
 
   async ngOnInit() {
-    // this.colonnes = await this.fbService.retrieveColumns();
     this.colonnes = ['TODO', 'WIP', 'Done', 'Bug'];
   }
 

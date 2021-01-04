@@ -7,4 +7,5 @@ export class Job {
   type: string; // CDI, freelance mission, CDD, ...
   user_id?: string;
   column?: string; // which column is the job card
+  description?: string;
 }

@@ -3,7 +3,7 @@
     <h1 class="h2 text-center">Modification job</h1>
     <form [formGroup]="editJobForm" (ngSubmit)="update()" >
       <div class="form-group">
-        <label for="title">Titre</label>
+        <label for="title">Titre *</label>
         <input
           type="text"
           id="title"
@@ -19,7 +19,7 @@
       </div>
 
       <div class="form-group mt-3">
-        <label for="entreprise">Entreprise</label>
+        <label for="entreprise">Entreprise *</label>
         <input
           type="text"
           id="entreprise"
@@ -72,6 +72,17 @@
           <option value="CDD">CDD</option>
           <option value="freelance">Freelance</option>
         </select>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          class="form-control"
+          formControlName="description"
+          [value]="job.description"
+        ></textarea>
       </div>
 
       <button [disabled]="editJobForm.invalid" class="btn btn-warning mt-5 mb-5" type="submit">Modifier</button>

@@ -3,7 +3,7 @@
     <h1 class="h2 text-center">Ajout d'une offre</h1>
     <form [formGroup]="createJobForm" (ngSubmit)="onSubmit()" >
       <div class="form-group">
-        <label for="title">Titre</label>
+        <label for="title">Titre *</label>
         <input
           type="text"
           id="title"
@@ -18,7 +18,7 @@
       </div>
 
       <div class="form-group mt-3">
-        <label for="entreprise">Entreprise</label>
+        <label for="entreprise">Entreprise *</label>
         <input
           type="text"
           id="entreprise"
@@ -70,6 +70,18 @@
         </select>
       </div>
 
+
+      <div class="form-group mt-3">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          class="form-control"
+          formControlName="description"
+        ></textarea>
+      </div>
+
+      <p class="mt-2 fst-italic"><small> (*) champs requis !</small></p>
       <button [disabled]="createJobForm.invalid" class="btn btn-primary mt-5 mb-5" type="submit">Ajout</button>
       <button class="btn btn-danger mt-5 mb-5 ms-5 " type="button" (click)="createJobForm.reset({})">Reset</button>
     </form>

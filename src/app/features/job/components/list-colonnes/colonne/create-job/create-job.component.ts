@@ -33,6 +33,7 @@ export class CreateJobComponent implements OnInit {
       offer_link: ['', [Validators.pattern(urlRegex)]],
       salary: ['', [Validators.pattern(/[0-9]{3,}$/)]],
       type: [''],
+      description: [''],
       column: [this.column, []]
     });
 
