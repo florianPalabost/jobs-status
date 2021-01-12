@@ -7,11 +7,11 @@ import {SignupComponent} from "./components/signup/signup.component";
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/effect/user.effects';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AuthFirebaseService} from "../../services/auth-firebase.service";
 import {UserService} from "./services/user.service";
+import {ToggleDirective} from "./directives/toggle.directive";
 
 @NgModule({
-  declarations: [SigninComponent, SignupComponent],
+  declarations: [SigninComponent, SignupComponent, ToggleDirective],
   imports: [
     CommonModule,
     StoreModule.forFeature(userFeatureKey, userReducer),

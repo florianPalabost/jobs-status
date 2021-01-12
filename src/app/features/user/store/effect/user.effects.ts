@@ -7,6 +7,7 @@ import {catchError, concatMap, map, mergeMap, switchMap, tap} from "rxjs/operato
 import {Router} from "@angular/router";
 import * as storage from "../../../../root-store/storage";
 import {of} from "rxjs";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable()
 export class UserEffects {
@@ -19,13 +20,25 @@ export class UserEffects {
           return userActionTypes.loadUserSuccess({user: new User(action.user)});
         }
       ),
+      catchError(err => of(userActionTypes.loadUserFailure({error: err}) ))
     ),
   );
 
   loadUserSuccess$ = createEffect(() =>
       this.actions$.pipe(
         ofType(userActionTypes.loadUserSuccess),
-        tap( () =>  this.router.navigate(['/jobs']))
+        tap( () => {
+          this.router.navigate(['/jobs']).then(
+            () => this.toast.success('You have been successfully been connected !', 'Hello world!'));
+        })
+      ),
+    { dispatch: false }
+  );
+
+  loadUserFail$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(userActionTypes.loadUserFailure),
+        tap( (action) =>  this.toast.error(action.error))
       ),
     { dispatch: false }
   );
@@ -34,7 +47,7 @@ export class UserEffects {
   this.actions$.pipe(
     ofType(userActionTypes.addUser),
     concatMap((action) => this.userService.createUser(action.user)),
-    tap(() => this.router.navigateByUrl('/jobs'))
+    tap(() => this.router.navigateByUrl('/jobs').then(()=> this.toast.success('You have been successfully been registered !', 'Hello world!')))
   ),
     {dispatch: false}
   );
@@ -56,6 +69,6 @@ export class UserEffects {
   );
 
 
-  constructor(private actions$: Actions, private userService: UserService, private router: Router) {}
+  constructor(private actions$: Actions, private userService: UserService, private router: Router, private toast: ToastrService) {}
 
 }
