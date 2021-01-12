@@ -10,6 +10,7 @@ import {CardComponent} from "../card/card.component";
 })
 export class TinyCardComponent {
   @Input() job: Job;
+  @Input() color: string;
 
   constructor(private modalService: NgbModal) { }
 

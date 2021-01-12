@@ -25,7 +25,8 @@ const routes: Routes = [
   },
   {
     path : 'jobs/create',
-    component: CreateJobComponent
+    component: CreateJobComponent,
+    canActivate: [AuthGuard],
   },
   {
     path : 'login',

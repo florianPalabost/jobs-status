@@ -8,4 +8,6 @@ export class Job {
   user_id?: string;
   column?: string; // which column is the job card
   description?: string;
+  has_postulated?: boolean;
+  date_postulated?: string; // maybe date type
 }

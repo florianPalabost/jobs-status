@@ -1,9 +1,14 @@
-<div class="card tiny-card" (click)="show(job)">
-  <div class="card-header">
+<div class="card tiny-card text-dark" (click)="show(job)">
+  <div class="card-header" [style]="color !== '' ? 'background-color:' + color : ''">
     <h1 class="h4 text-center">{{job.entreprise}}</h1>
   </div>
   <div class="card-body">
-    <p><span class="badge bg-info">{{job.type}}</span> {{job.title}}</p>
-    <p></p>
+    <p>
+      <span class="badge bg-info">{{job.type}}</span>
+
+      <span *ngIf="job.has_postulated" class="ms-1 badge bg-success">Postulé</span>
+      <span *ngIf="!job.has_postulated" class="ms-1 badge bg-warning">Non postulé</span>
+      {{job.title}}
+    </p>
   </div>
 </div>

@@ -1,9 +1,9 @@
-<div class="row">
+<div class="row text-dark">
   <div class="col-12 col-md-6 mx-auto">
     <h1 class="h2 text-center">Ajout d'une offre</h1>
     <form [formGroup]="createJobForm" (ngSubmit)="onSubmit()" >
       <div class="form-group">
-        <label for="title">Titre *</label>
+        <label for="title" class="required">Titre</label>
         <input
           type="text"
           id="title"
@@ -18,7 +18,7 @@
       </div>
 
       <div class="form-group mt-3">
-        <label for="entreprise">Entreprise *</label>
+        <label for="entreprise" class="required">Entreprise</label>
         <input
           type="text"
           id="entreprise"
@@ -40,21 +40,49 @@
           name="offer_link"
           class="form-control"
           formControlName="offer_link"
+          placeholder="https://xxxxx.xx"
           />
         <small class="text-danger" *ngIf="createJobForm.get('offer_link').hasError('pattern')">
           Offer link has not the correct format! (should be : https://xxxxx.xx)
         </small>
       </div>
 
+      <div class="form-check mt-3">
+        <label for="has_postulated">Postulé ?</label>
+        <input type="checkbox" id="has_postulated" class="form-check-input" (change)="showDatePostul()"
+               formControlName="has_postulated"/>
+      </div>
+
+      <div class="form-group mt-2" *ngIf="showPostulated">
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd"
+                 name="dp" formControlName="date_postulated" ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+              <span class="bi bi-calendar-date"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="form-group mt-3">
         <label for="salary">Salaire</label>
-        <input
-          type="number"
-          id="salary"
-          name="salary"
-          class="form-control w-50"
-          formControlName="salary"
+        <div class="input-group">
+
+          <input
+            type="number"
+            id="salary"
+            name="salary"
+            class="form-control w-50"
+            formControlName="salary"
           />
+          <div class="input-group-appended">
+            <span class="input-group-text">
+              €
+            </span>
+          </div>
+        </div>
+
         <small class="text-danger" *ngIf="createJobForm.get('salary').hasError('pattern')">
           Salary has not the correct format! (should be at least : 100)
         </small>

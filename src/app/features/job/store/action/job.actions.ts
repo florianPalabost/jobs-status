@@ -8,7 +8,7 @@ export const loadJobs = createAction(
 
 export const loadJobsColumn = createAction(
   '[Job] Load Jobs Column',
-  props<{columnTitle: string}>()
+  props<{columnId: string, userId: string}>()
 );
 
 export const jobsLoaded = createAction(

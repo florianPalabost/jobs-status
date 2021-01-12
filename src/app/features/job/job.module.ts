@@ -14,17 +14,26 @@ import {RouterModule} from "@angular/router";
 import { EditComponent } from './components/list-colonnes/colonne/edit/edit.component';
 import { TinyCardComponent } from './components/list-colonnes/colonne/tiny-card/tiny-card.component';
 import {NgxSmoothDnDModule} from "ngx-smooth-dnd";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {colonneFeatureKey, colonneReducer} from "./store/reducer/colonne.reducer";
+import {ColonneEffects} from "./store/effect/colonne.effects";
+import { CreateColonneComponent } from './components/list-colonnes/create-colonne/create-colonne.component';
+import {ColorPickerModule} from "ngx-color-picker";
+import { EditColonneComponent } from './components/list-colonnes/edit-colonne/edit-colonne.component';
 
 @NgModule({
-  declarations: [CreateJobComponent, ListColonnesComponent, ColonneComponent, CardComponent, EditComponent, TinyCardComponent],
+  declarations: [CreateJobComponent, ListColonnesComponent, ColonneComponent, CardComponent, EditComponent, TinyCardComponent, CreateColonneComponent, EditColonneComponent],
   imports: [
     CommonModule,
     StoreModule.forFeature(jobFeatureKey, jobReducer),
-    EffectsModule.forFeature([JobEffects]),
+    StoreModule.forFeature(colonneFeatureKey, colonneReducer),
+    EffectsModule.forFeature([JobEffects, ColonneEffects]),
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    NgxSmoothDnDModule
+    NgxSmoothDnDModule,
+    NgbModule,
+    ColorPickerModule
   ],
   providers: [JobService],
   bootstrap: [],

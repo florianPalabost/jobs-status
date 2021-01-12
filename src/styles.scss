@@ -2,3 +2,12 @@
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
+/* Bootstrap v5 icons  */
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+@import "assets/scss/form.scss";
+body {
+  background-color: royalblue;
+  color: white;
+}

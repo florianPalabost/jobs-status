@@ -2,10 +2,13 @@ import { Injectable } from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {jobActionTypes} from "../action/job.actions";
 import {Router} from "@angular/router";
-import {catchError, concatMap, map, mergeMap, switchMap, tap} from 'rxjs/operators';
-import {JobService} from "../../services/job.service";
+import { concatMap, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {Job} from "../../models/job";
-import {Observable, pipe} from "rxjs";
+import {pipe} from "rxjs";
+import {FirebaseCrudService} from "../../../../services/firebase-crud.service";
+import {WhereClause} from "../../../../models/where-clause.model";
+
+const collection = 'jobs';
 
 @Injectable()
 export class JobEffects {
@@ -13,7 +16,7 @@ export class JobEffects {
     this.actions$.pipe(
       ofType(jobActionTypes.loadJobs),
       concatMap( () => {
-       return this.jobsService.retrieveAllJobs();
+       return this.fbService.retrieveItems(collection);
       }),
       map((doc: any) => {
         return jobActionTypes.jobsLoaded({jobs: doc});
@@ -24,7 +27,10 @@ export class JobEffects {
   loadJobsColumn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(jobActionTypes.loadJobsColumn),
-      mergeMap((action) => this.jobsService.retrieveJobsOfColumn(action.columnTitle)),
+      mergeMap((action) => this.fbService.retrieveItems(collection, [
+        new WhereClause('column', '==', action.columnId),
+        new WhereClause('user_id', '==', action.userId),
+      ])),
       pipe(
         map((jobs) => jobActionTypes.jobsLoaded({jobs})),
       ),
@@ -36,8 +42,8 @@ export class JobEffects {
   createJob$ = createEffect(() =>
     this.actions$.pipe(
       ofType(jobActionTypes.addJob),
-      concatMap((action) => this.jobsService.createJob(action.job)),
-      tap(() => this.router.navigateByUrl('/jobs'))
+      concatMap((action) => this.fbService.create(collection, action.job)),
+      // tap(() => this.router.navigateByUrl('/jobs'))
     ),
   {dispatch: false}
   );
@@ -45,7 +51,7 @@ export class JobEffects {
   deleteJob$ = createEffect(() =>
     this.actions$.pipe(
       ofType(jobActionTypes.deleteJob),
-      concatMap((action) => this.jobsService.deleteJob(action.jobId)),
+      concatMap((action) => this.fbService.delete(collection, action.jobId)),
       tap(() => this.router.navigateByUrl('/jobs'))
     ),
     {dispatch:false}
@@ -55,12 +61,12 @@ export class JobEffects {
     this.actions$.pipe(
       ofType(jobActionTypes.updateJob),
       switchMap((action) => {
-        return this.jobsService.updateJob(action.job);
+        return this.fbService.update(collection, action.job);
       }),
       map((x) => jobActionTypes.updateJobSuccess())
     )
   );
 
-  constructor(private jobsService: JobService, private actions$: Actions, private router: Router) {}
+  constructor(private fbService: FirebaseCrudService<Job>, private actions$: Actions, private router: Router) {}
 
 }

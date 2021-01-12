@@ -1,11 +1,21 @@
-<div class="column">
-  <div class="flex-column">
-    <h2 class="text-center fw-bolder">{{title}}</h2>
-    <smooth-dnd-container (drop)="onDrop($event)" [groupName]="title" [shouldAcceptDrop]="shouldAcceptDrop" [getChildPayload]="getChildPayload">
+<div class="column m-3">
+  <div class="row">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-auto">
+      <h2 class="text-center fw-bolder">{{title}}</h2>
+      <button class="btn" (click)="edit()"><span class="bi bi-pencil-square text-warning"></span></button>
+      <button class="btn" (click)="delete(colonne.id)"><span class="bi bi-trash text-danger"></span></button>
+    </div>
+
+
+    <smooth-dnd-container (drop)="onDrop($event)" [groupName]="'colonne'" [shouldAcceptDrop]="shouldAcceptDrop" [getChildPayload]="getChildPayload">
       <smooth-dnd-draggable *ngFor="let job of jobs; let index = index" >
-        <app-tiny-card [job]="job"></app-tiny-card>
+        <app-tiny-card [job]="job" [color]="colonne.color"></app-tiny-card>
       </smooth-dnd-draggable>
     </smooth-dnd-container>
-    <button (click)="open()" data-toggle="modal" data-target="modal-create" class="link link-primary border-0">Add a card ...</button>
+    <div class="d-grid gap-2 d-md-block">
+      <button (click)="open()" data-toggle="modal" data-target="modal-create" class="mt-3 pe-auto btn btn-outline text-white border-0">
+        <span class="bi bi-plus"></span>Add a card</button>
+    </div>
+
   </div>
 </div>

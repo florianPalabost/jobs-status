@@ -9,6 +9,9 @@ import {UserService} from "../../../../../user/services/user.service";
 import * as fromRoot from "../../../../../user/store/reducer/user.reducer";
 import {ToastrService} from "ngx-toastr";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import firebase from "firebase";
+import Firestore = firebase.firestore.Firestore;
+import {AngularFirestore} from "@angular/fire/firestore";
 
 @Component({
   selector: 'app-create-job',
@@ -19,10 +22,11 @@ export class CreateJobComponent implements OnInit {
   createJobForm: FormGroup;
   @Input() column: string;
   user: any;
+  showPostulated = false;
 
   constructor(private fb: FormBuilder, private store: Store<AppState>,
               private userService: UserService, private toast: ToastrService,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal, private fs: AngularFirestore) { }
 
   ngOnInit(): void {
     const urlRegex  = new RegExp(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/);
@@ -34,7 +38,9 @@ export class CreateJobComponent implements OnInit {
       salary: ['', [Validators.pattern(/[0-9]{3,}$/)]],
       type: [''],
       description: [''],
-      column: [this.column, []]
+      column: [this.column, []],
+      has_postulated: [false, []],
+      date_postulated: [null, []]
     });
 
     this.store.select(fromRoot.getLoginUser).subscribe(data => {
@@ -46,12 +52,21 @@ export class CreateJobComponent implements OnInit {
 
   onSubmit() {
     const userId = this.user && this.user.hasOwnProperty('id') ? this.user.id : undefined;
-    const job: Job ={
-      id: uuid.v4(),
+    const job: Job = {
       user_id: userId,
       ...this.createJobForm.value};
-    this.store.dispatch(addJob({job}));
+
+
+   this.store.dispatch(addJob({job}));
     this.modalService.dismissAll();
     this.toast.success('Successfully Add Job !');
+  }
+
+  showDatePostul() {
+    // has postulated so, show date postule
+    if (this.createJobForm.get('has_postulated').value) {
+      this.createJobForm.get('date_postulated').setValue(new Date());
+    }
+    this.showPostulated = !this.showPostulated;
   }
 }

@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {JobState} from "../../../store/reducer/job.reducer";
 import {Store} from "@ngrx/store";
-import {loadJobsColumn, updateJob} from "../../../store/action/job.actions";
+import {deleteJob, loadJobsColumn, updateJob} from "../../../store/action/job.actions";
 import {getAllJobs} from "../../../store/selector/job.selectors";
 import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs";
@@ -10,6 +10,12 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {DropResult} from 'ngx-smooth-dnd';
 import {Job} from "../../../models/job";
 import {Update} from "@ngrx/entity";
+import {getLoginUser} from "../../../../user/store/reducer/user.reducer";
+import {AppState} from "../../../store";
+import {deleteColonne} from "../../../store/action/colonne.actions";
+import {ToastrService} from "ngx-toastr";
+import {EditComponent} from "./edit/edit.component";
+import {EditColonneComponent} from "../edit-colonne/edit-colonne.component";
 
 @Component({
   selector: 'app-colonne',
@@ -17,27 +23,41 @@ import {Update} from "@ngrx/entity";
   styleUrls: ['./colonne.component.scss']
 })
 export class ColonneComponent implements OnInit, OnDestroy {
-  @Input() title: string;
+  @Input() colonne: any;
   jobs: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  userId: any;
+  title: string;
+  colonneId: string;
 
-  constructor(private store: Store<JobState>, private modalService: NgbModal) { }
+  constructor(private store: Store<AppState>, private modalService: NgbModal, private toast: ToastrService) {
+  }
 
   ngOnInit(): void {
-    this.store.dispatch(loadJobsColumn({columnTitle:this.title}));
+
+    this.title = this.colonne && this.colonne.hasOwnProperty('name') ? this.colonne.name : undefined;
+
+    this.colonneId = this.colonne && this.colonne.hasOwnProperty('id') ? this.colonne.id : undefined;
+
+    this.store.select(getLoginUser).subscribe((data) => {
+      if (data !== null && data.user !== null && data.user['user'] !== null) {
+        this.userId = data?.user && data?.user['user'].hasOwnProperty('id') ? data?.user['user']['id'] : undefined;
+      }
+    })
+    this.store.dispatch(loadJobsColumn({columnId:this.colonneId, userId: this.userId}));
 
     this.store.select(getAllJobs).pipe(
       takeUntil(this.destroy$)
     ).subscribe(data => {
       if (data && data.length > 0) {
-        this.jobs = data.filter((job) => job.column === this.title);
+        this.jobs = data.filter((job) => job.column === this.colonneId && job.id !== undefined && job.id !== '')
       }
     });
   }
 
   open() {
     const modalRef = this.modalService.open(CreateJobComponent);
-    modalRef.componentInstance.column = this.title;
+    modalRef.componentInstance.column = this.colonneId;
   }
 
   ngOnDestroy(): void {
@@ -54,7 +74,7 @@ export class ColonneComponent implements OnInit, OnDestroy {
       // traitement : update column property of job
       const job: Update<Job> = {
         id:dropResult.payload.id,
-        changes: {column: this.title}
+        changes: {column: this.colonneId}
       };
       this.store.dispatch(updateJob({job}));
 
@@ -80,5 +100,16 @@ export class ColonneComponent implements OnInit, OnDestroy {
       return this.jobs.find((item, i) => i === index);
     }
     return undefined;
+  }
+
+  delete(colonneId: string) {
+    this.store.dispatch(deleteColonne({colonneId}));
+    this.toast.success('Colonne successfully deleted !');
+
+  }
+
+  edit() {
+    const modalRef = this.modalService.open(EditColonneComponent);
+    modalRef.componentInstance.colonne = this.colonne;
   }
 }

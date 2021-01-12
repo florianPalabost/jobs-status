@@ -1,13 +1,20 @@
-<div class="card">
+<div class="card text-dark">
   <div class="card-header">
       <h3>{{job.entreprise}}</h3>
     <button class="btn btn-danger" (click)="delete(job.id)">Delete</button>
-    <button class="btn btn-warning ms-1" (click)="edit()">Edit</button>
+    <button class="btn btn-warning ms-3" (click)="edit()">Edit</button>
   </div>
   <div class="card-body">
     <p><span class="badge bg-info">{{job.type}}</span> {{job.title}}</p>
     <p><a target="_blank" [href]="job.offer_link" rel="noopener noreferrer">Link offer</a></p>
-    <p>{{job.salary}}</p>
-    <p class="justify-content-center" *ngIf="job.description">{{job.description}}</p>
+    <p>{{job.salary}}€</p>
+
+    <div class="row" *ngIf="job.description">
+      <div class="col-12">
+        <h4>Description</h4>
+        <p class="justify-content-center" *ngIf="job.description">{{job.description}}</p>
+      </div>
+    </div>
+
   </div>
 </div>

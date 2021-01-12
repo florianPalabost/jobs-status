@@ -16,6 +16,7 @@ import {Update} from "@ngrx/entity";
 export class EditComponent implements OnInit {
   @Input() job: Job;
   editJobForm: FormGroup;
+  showPostulated = false;
 
   constructor(private fb: FormBuilder, private store: Store<JobState>,
               private modalService: NgbModal, private toast: ToastrService) { }
@@ -30,7 +31,9 @@ export class EditComponent implements OnInit {
       salary: [this.job.salary, [Validators.pattern(/[0-9]{3,}$/)]],
       type: [this.job.type],
       description: [this.job.description],
-      column: [this.job.column, []]
+      column: [this.job.column, []],
+      has_postulated: [this.job.has_postulated, []],
+      date_postulated: [this.job.date_postulated, []]
     });
   }
 

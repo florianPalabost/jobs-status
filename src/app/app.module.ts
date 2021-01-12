@@ -32,7 +32,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     AppComponent,
     MenuComponent,
     NotFoundComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,10 +43,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     }),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    StoreModule.forRoot(reducers, { metaReducers,runtimeChecks: {
+    StoreModule.forRoot(reducers, {
+      metaReducers, runtimeChecks: {
         strictStateImmutability: false,
         strictActionImmutability: true,
-      }  }),
+      }
+    }),
     EffectsModule.forRoot([UserEffects, JobEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     JobModule,
@@ -56,10 +58,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     AngularFireDatabaseModule,
     ReactiveFormsModule,
     NgbModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
 
   ],
   providers: [],
+  exports: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
