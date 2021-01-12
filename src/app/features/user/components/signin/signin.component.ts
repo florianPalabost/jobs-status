@@ -27,9 +27,9 @@ export class SigninComponent implements OnInit, OnDestroy {
               private router:  Router, private store: Store<UserState>, private modalService: NgbModal) {
     this.store.select(fromRoot.getLoginUser).pipe(
       takeUntil(this.destroy$)
-    ).subscribe(data => {
-      if (data.isLogged) {
-        this.router.navigate(['/jobs']);
+    ).subscribe(async data => {
+      if (data.user['user'] && data.user['user'].hasOwnProperty('email') && data.user['user'].email) {
+        await this.router.navigate(['/jobs']);
       }
     });
 
@@ -52,7 +52,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     const user: User = {email, password};
     this.store.dispatch(loadUser({user}));
     this.modalService.dismissAll();
-    this.toastr.success('You have been successfully been connected !', 'Hello world!');
+
   }
 
 }

@@ -1,18 +1,30 @@
-<div class="row">
-  <div class="col-4 mx-auto mt-5">
+<div class="row text-dark">
+  <div class="col-10 col-md-8 col-lg-6 mx-auto mt-5">
     <h1>Connexion</h1>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">Adresse email</label>
-        <input type="text" formControlName="email" class="form-control" id="email">
+      <div class="form-group mt-3">
+        <div class="input-group">
+          <input type="text" formControlName="email" class="form-control" id="email" placeholder="mail address">
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <i class="bi bi-envelope"></i>
+            </span>
+          </div>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" formControlName="password" class="form-control" id="password">
+      <div class="form-group mt-3">
+       <div class="input-group">
+         <input type="password" formControlName="password" class="form-control password" id="password" placeholder="password">
+         <div class="input-group-append">
+           <span class="input-group-text" toggle>
+             <i class="bi bi-eye-slash"></i>
+           </span>
+         </div>
+       </div>
       </div>
 
-      <button class="btn btn-outline-primary" type="submit" [disabled]="loginForm.invalid">Se connecter</button>
+      <button class="btn btn-success mt-5" type="submit" [disabled]="loginForm.invalid">Se connecter</button>
     </form>
     <p class="text-danger"> {{errMsg}}</p>
   </div>
