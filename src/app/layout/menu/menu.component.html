@@ -1,7 +1,18 @@
-<nav class="nav justify-content-end">
-  <a class="nav-link active" aria-current="page" href="#">Accueil</a>
-  <a class="nav-link" routerLink="jobs">Jobs</a>
-  <a class="nav-link cursor-link" *ngIf="!isLogged" (click)="open('login')">Login</a>
-  <a class="nav-link cursor-link" *ngIf="!isLogged" (click)="open('register')">Register</a>
-  <a *ngIf="isLogged" class="nav-link cursor-link" (click)="logout()">Logout</a>
+<nav class="navbar navbar-light navbar-expand-lg">
+  <div class="container-fluid">
+
+    <button (click)="isNavCollapsed = !isNavCollapsed" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand text-white" href="#">Jobs Status</a>
+    <div [ngbCollapse]="isNavCollapsed" class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li><a class="nav-link text-white me-2" routerLink="jobs">Jobs</a></li>
+        <li><a class="nav-link cursor-link text-white" *ngIf="!isLogged" (click)="open('login')">Login</a></li>
+        <li><a class="nav-link cursor-link text-white" *ngIf="!isLogged" (click)="open('register')">Register</a></li>
+        <li><a *ngIf="isLogged" class="nav-link cursor-link text-white" (click)="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </div>
 </nav>

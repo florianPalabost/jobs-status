@@ -10,6 +10,7 @@ import {Logout} from "../../root-store/clearState";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {SignupComponent} from "../../features/user/components/signup/signup.component";
 import {SigninComponent} from "../../features/user/components/signin/signin.component";
+import {logoutUser} from "../../features/user/store/action/user.actions";
 
 @Component({
   selector: 'app-menu',
@@ -19,6 +20,7 @@ import {SigninComponent} from "../../features/user/components/signin/signin.comp
 export class MenuComponent implements OnInit, OnDestroy {
   isLogged :boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
+    isNavCollapsed = true;
 
   constructor(private userService: UserService, private toast: ToastrService,
               private store: Store<UserState>,private modalService: NgbModal) {
@@ -39,7 +41,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   logout() {
     // clear state user ->  remove it because the second dispatch clear app state
-    // this.store.dispatch(logoutUser());
+    this.store.dispatch(logoutUser());
     // clear state for otther feature
     this.store.dispatch(new Logout());
     this.toast.success('Successfully Logout !');
